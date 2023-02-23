@@ -25,6 +25,54 @@
                 </p>
             </div>
         </section>
+        
+            <section>
+                <div class="w-full pt-6">
+                    <!--Table Card-->
+                    <div class="bg-white border-transparent rounded-lg shadow-xl">
+                        <div class="bg-gradient-to-b from-gray-300 to-gray-100 uppercase text-gray-800 border-b-2 border-gray-300 rounded-tl-lg rounded-tr-lg p-2">
+                            <h2 class="font-bold uppercase text-gray-600">Open Requests</h2>
+                        </div>
+                        @unless(count($transactions)==0)
+                        <div class="max-w-6xl mx-auto py-5 px-2 sm:px-5">
+                            <table class="w-full mx-auto py-5 sm:px-5 text-gray-700">
+                                <thead>
+                                <tr>
+                                    <th class="text-center text-blue-900">User Id</th>
+                                    <th class="text-center text-blue-900">Name</th>
+                                    <th class="text-center text-blue-900 hidden sm:table-cell">Age</th>
+                                    <th class="text-center text-blue-900 hidden sm:table-cell">Gender</th>
+                                    <th class="text-center text-blue-900">Request Type</th>
+                                    <th class="text-center text-blue-900">Actions</th>
+                                </tr>
+                                </thead>
+                                
+                                <tbody>
+                                
+                                @foreach($transactions as $transaction)
+                                <tr>
+                                    <td class="text-center">{{$transaction->requesting_id}}</td>
+                                    <td class="text-center">{{$transaction->name}}</td>
+                                    <td class="hidden sm:table-cell text-center">{{$transaction->age}}</td>
+                                    <td class="hidden sm:table-cell text-center">{{$transaction->gender}}</td>
+                                    <td class="text-center">{{$transaction->type}}</td>
+                                    <td class="text-center">
+                                        <a href="/transactions/{{$transaction->id}}/deny" class="inline, text-yellow-600 text-lg mr-6"><i class="fa-solid fa-trash-can"></i></a>
+                                        <a href="/transactions/{{$transaction->id}}/generate-pdf" class="inline, text-yellow-600 text-lg"><i class="fa-solid fa-pen"></i></a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                        @else <p class="text-center text-gray-800 py-10">No open requests found</p>
+                            @endunless
+                    </div>
+                    <!--/table Card-->
+                </div>
+            </section>
+            
            <section>
             <div id="main" class="main-content flex-1 bg-gray-100 pt-5 pb-12 md:pb-5 px-5 bg-[url('/images/natural_paper.png')]">
                 <div class="flex flex-wrap">

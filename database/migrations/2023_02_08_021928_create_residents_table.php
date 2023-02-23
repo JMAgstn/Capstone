@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('residents', function (Blueprint $table) {
             $table->id();
+            $table->string('avatar')->nullable();
             $table->string('last_name');
             $table->string('first_name');
             $table->string('middle_name');
-            $table->string('suffix');
+            $table->string('suffix')->nullable();
             $table->date('b_date');
             $table->string('b_place');
             $table->string('gender');
@@ -33,9 +34,9 @@ return new class extends Migration
             $table->bigInteger('monthly_income');
             $table->string('educational_attainment');
             $table->string('mailing_address');
-            $table->foreignId('household_id');
+            $table->foreignId('household_id')->nullable();
             $table->string('relation_to_head');
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->nullable();
             $table->string('contact_email');
             $table->string('contact_phone');
             $table->timestamps();

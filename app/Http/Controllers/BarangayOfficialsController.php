@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Log;
 use App\Models\Residents;
 use Illuminate\Http\Request;
+use App\Models\NewsandUpdates;
 use Illuminate\Validation\Rule;
 use App\Models\BarangayOfficials;
 use Illuminate\Support\Facades\DB;
@@ -59,6 +60,17 @@ class BarangayOfficialsController extends Controller
             ->orderBy('role', 'asc')
             ->paginate(10));
         return view('officials.officials', $officials);
+    }
+
+    public function activeofficials()
+    {
+        $officials = array("officials" => DB::table('barangayofficials')
+            ->join('residents', 'resident_id', '=', 'residents.id')
+            ->select('residents.avatar', 'barangayofficials.barangayofficial_name', 'barangayofficials.resident_id', 'barangayofficials.id', 'barangayofficials.role', 'barangayofficials.term_start', 'barangayofficials.term_end')
+            ->whereNull('term_end')
+            ->orderBy('role', 'asc')
+            ->paginate(6));
+        return view('newsupdates', $officials, ['newsandupdates' => NewsandUpdates::latest()->paginate(3)]);
     }
 
     public function create()

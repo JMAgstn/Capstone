@@ -12,6 +12,9 @@
     </button>
 </form>
 <div class="inline-flex items-center text-center py-1.5 px-3 ml-2 text-sm font-medium text-blue-600 sm:text-white sm:bg-blue-500 rounded-lg sm:border sm:border-blue-700 sm:hover:bg-yellow-500 sm:hover:text-gray-100 sm:hover:border-yellow-500 sm:hover:shadow-lg hover:text-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300">
-    <a href="{{ url('/households') }}" class="flex items-center" role="button"> <span class="text-lg sm:mr-2 sm:-ml-1"><i class="fa-solid fa-arrows-rotate"></i></span><span class="hidden sm:block">Reset</span></a>
+    <a href="{{ url('/residents') }}" class="flex items-center" role="button"> <span class="text-lg sm:mr-2 sm:-ml-1"><i class="fa-solid fa-arrows-rotate"></i></span><span class="hidden sm:block">Reset</span></a>
+</div>
+<div class="inline-flex items-center text-center py-1.5 px-3 ml-2 text-sm font-medium text-blue-600 sm:text-white sm:bg-blue-500 rounded-lg sm:border sm:border-blue-700 sm:hover:bg-yellow-500 sm:hover:text-gray-100 sm:hover:border-yellow-500 sm:hover:shadow-lg hover:text-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300">
+    <a href="{{ url('/residents')}}/export" class="flex items-center" role="button"> <span class="text-lg sm:mr-2 sm:-ml-1"><i class="fa-regular fa-circle-down"></i></span><span class="hidden sm:block">Export</span></a>
 </div>
 </div>

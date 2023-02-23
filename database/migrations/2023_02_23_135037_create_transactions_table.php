@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('barangayofficials', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('resident_id');
-            $table->string('barangayofficial_name');
-            $table->string('role');
-            $table->date('term_start');
-            $table->date('term_end')->nullable();
+            $table->foreignId('requesting_id');
+            $table->string('type');
+            $table->string('name');
+            $table->integer('age');
+            $table->string('gender');
+            $table->foreignId('issuing_id');
+            $table->boolean('is_granted');
             $table->timestamps();
         });
     }
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('barangayofficials');
+        Schema::dropIfExists('transactions');
     }
 };

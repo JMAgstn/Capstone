@@ -11,13 +11,15 @@ class Log extends Model
 
     protected $fillable = ['action', 'by_userId', 'by_userName', 'receiver_type', 'receiver_name'];
 
-    public function scopeFilter($query, array $filters){
+    public function scopeFilter($query, array $filters)
+    {
         if ($filters['search'] ?? false) {
             $query->where('by_userName', 'like', '%' . request('search') . '%')
                 ->orWhere('receiver_type', 'like', '%' . request('search') . '%')
                 ->orWhere('by_userId', request('search'))
-                ->orWhere('receiver_name', 'like', '%' . request('search') . '%')
-                ;
+                ->orWhere('receiver_name', 'like', '%' . request('search') . '%');
         }
     }
+
+    // public function 
 }

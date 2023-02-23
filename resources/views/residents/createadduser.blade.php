@@ -11,7 +11,7 @@
                     Create Resident
                     
                 </header>
-                @include('partials._addresidentsearch')
+                @include('partials._addresidentusersearch')
                 @unless(count($users)==0)
                 <div class="sm:px-16 px-1 h-40 overflow-y-auto">
                 <div class="grid grid-cols-10 gap-1">
@@ -31,7 +31,7 @@
                     @endforeach
                 </div>
             </div>
-            @else <p class="text-center text-gray-800 py-10 text-lg">No Households found</p>
+            @else <p class="text-center text-gray-800 py-10 text-lg">No Users found</p>
             @endunless
                 <div class="pt-10 px-5 border-t-8 border-white pb-5 rounded-b-lg bg-gray-100">
 

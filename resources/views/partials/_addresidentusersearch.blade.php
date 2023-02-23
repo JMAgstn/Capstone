@@ -1,5 +1,5 @@
 <div class="flex items-center px-5">
-    <form action={{url('/residents/{resident}/addhouseholdsearch')}} class="flex items-center my-5 w-full">   
+    <form action={{url('/residents/{resident}/addusersearch')}} class="flex items-center my-5 w-full">   
         @csrf
         <label for="search" class="sr-only">Search</label>
         <div class="relative w-full">

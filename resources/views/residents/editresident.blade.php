@@ -8,7 +8,7 @@
             <section class="flex flex-col break-words bg-[url('/images/lightpaperfibers.png')] border-1 rounded-md shadow-lg">
     
                 <header class="mb-5 font-semibold bg-sky-600 text-gray-50 py-5 px-6 sm:py-6 sm:px-8 rounded-t-md">
-                    Create Resident
+                    Edit Resident
                     
                 </header>
                 <div class="px-5 mb-5 rounded-b-lg">

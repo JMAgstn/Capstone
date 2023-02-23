@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 
 class ResidentsController extends Controller
 {
@@ -122,12 +125,19 @@ class ResidentsController extends Controller
         Residents::create($validated);
         Log::create($log);
 
-        return redirect('/residents/' . $next_id . '/addhousehold')->with('status', 'Resident Information saved successfully!');
+        return redirect('/residents/' . $next_id . '/addhousehold');
     }
 
-    public function addhousehold(Residents $resident)
+    public function addhousehold(Residents $resident, Request $request)
     {
         // dd($resident);
+        $data = ['id' => 1, 'fullname' => 'Household Head'];
+        return view('residents.createaddhousehold', ['resident' => $resident, 'households' => Households::latest()->filter(request(['search']))->paginate(50), 'data' => $data]);
+    }
+
+    public function addhouseholdsearch(Request $request)
+    {
+        $resident = Residents::latest()->first();
         $data = ['id' => 1, 'fullname' => 'Household Head'];
         return view('residents.createaddhousehold', ['resident' => $resident, 'households' => Households::latest()->filter(request(['search']))->paginate(50), 'data' => $data]);
     }
@@ -147,13 +157,20 @@ class ResidentsController extends Controller
         }
         $validated = $validator->validated();
         $resident->update($validated);
-        return redirect('/residents/' . $resident->id . '/adduser')->with('status', 'Resident Successfully Created');
+        return redirect('/residents/' . $resident->id . '/adduser');
     }
 
     public function adduser(Residents $resident)
     {
         // dd($resident);
         $data = ['id' => 1, 'fullname' => 'Username'];
+        return view('residents.createadduser', ['resident' => $resident, 'users' => User::latest()->filter(request(['search']))->paginate(50), 'data' => $data]);
+    }
+
+    public function addusersearch(Request $request)
+    {
+        $resident = Residents::latest()->first();
+        $data = ['id' => 1, 'fullname' => 'Household Head'];
         return view('residents.createadduser', ['resident' => $resident, 'users' => User::latest()->filter(request(['search']))->paginate(50), 'data' => $data]);
     }
 
@@ -171,7 +188,7 @@ class ResidentsController extends Controller
         }
         $validated = $validator->validated();
         $resident->update($validated);
-        return redirect('/residents')->with('status', 'User info Successfully Added');
+        return redirect('/residents')->with('status', 'Resident successfully added');
     }
 
     public function edit(Residents $resident)
@@ -239,5 +256,77 @@ class ResidentsController extends Controller
         // dd($resident);
         $data = array('id' => $resident->id, 'fullname' => ($resident->last_name . ', ' . $resident->first_name));
         return view('officials.createofficial', array('residents' => Residents::latest()->filter(request(['search']))->paginate(50), 'data' => $data));
+    }
+
+    public function export()
+    {
+        $residents = Residents::all();
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'Id');
+        $sheet->setCellValue('B1', 'Avatar');
+        $sheet->setCellValue('C1', 'Last Name');
+        $sheet->setCellValue('D1', 'First Name');
+        $sheet->setCellValue('E1', 'Middle Name');
+        $sheet->setCellValue('F1', 'Suffix');
+        $sheet->setCellValue('G1', 'Birthday');
+        $sheet->setCellValue('H1', 'Birthplace');
+        $sheet->setCellValue('I1', 'Gender');
+        $sheet->setCellValue('J1', 'Religion');
+        $sheet->setCellValue('K1', 'Nationality');
+        $sheet->setCellValue('L1', 'Citizenship');
+        $sheet->setCellValue('M1', 'Civil Status');
+        $sheet->setCellValue('N1', 'Blood Type');
+        $sheet->setCellValue('O1', 'Has Philhealth?');
+        $sheet->setCellValue('P1', 'Occupation');
+        $sheet->setCellValue('Q1', 'Employment Status');
+        $sheet->setCellValue('R1', 'Monthly Income');
+        $sheet->setCellValue('S1', 'Educational Attainment');
+        $sheet->setCellValue('T1', 'Mailing Address');
+        $sheet->setCellValue('U1', 'Household Id');
+        $sheet->setCellValue('V1', 'Relation To Household Head');
+        $sheet->setCellValue('W1', 'User Id');
+        $sheet->setCellValue('X1', 'Email Address');
+        $sheet->setCellValue('Y1', 'Phone Number');
+        $sheet->setCellValue('Z1', 'Created At');
+        $sheet->setCellValue('AA1', 'Updated At');
+        $rows = 2;
+        foreach ($residents as $resident) {
+            $sheet->setCellValue('A' . $rows, $resident['id']);
+            $sheet->setCellValue('B' . $rows, $resident['avatar']);
+            $sheet->setCellValue('C' . $rows, $resident['last_name']);
+            $sheet->setCellValue('D' . $rows, $resident['first_name']);
+            $sheet->setCellValue('E' . $rows, $resident['middle_name']);
+            $sheet->setCellValue('F' . $rows, $resident['suffix']);
+            $sheet->setCellValue('G' . $rows, $resident['b_date']);
+            $sheet->setCellValue('H' . $rows, $resident['b_place']);
+            $sheet->setCellValue('I' . $rows, $resident['gender']);
+            $sheet->setCellValue('J' . $rows, $resident['religion']);
+            $sheet->setCellValue('K' . $rows, $resident['nationality']);
+            $sheet->setCellValue('L' . $rows, $resident['citizenship']);
+            $sheet->setCellValue('M' . $rows, $resident['civil_status']);
+            $sheet->setCellValue('N' . $rows, $resident['blood_type']);
+            $sheet->setCellValue('O' . $rows, $resident['has_philhealth']);
+            $sheet->setCellValue('P' . $rows, $resident['occupation']);
+            $sheet->setCellValue('Q' . $rows, $resident['employment_status']);
+            $sheet->setCellValue('R' . $rows, $resident['monthly_income']);
+            $sheet->setCellValue('S' . $rows, $resident['educational_attainment']);
+            $sheet->setCellValue('T' . $rows, $resident['mailing_address']);
+            $sheet->setCellValue('U' . $rows, $resident['household_id']);
+            $sheet->setCellValue('V' . $rows, $resident['relation_to_head']);
+            $sheet->setCellValue('W' . $rows, $resident['user_id']);
+            $sheet->setCellValue('X' . $rows, $resident['contact_email']);
+            $sheet->setCellValue('Y' . $rows, $resident['contact_phone']);
+            $sheet->setCellValue('Z' . $rows, $resident['created_at']);
+            $sheet->setCellValue('AA' . $rows, $resident['created_at']);
+            $rows++;
+        }
+        $writer = new Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="residents.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
     }
 }
